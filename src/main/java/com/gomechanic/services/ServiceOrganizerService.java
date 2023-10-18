@@ -43,5 +43,18 @@ public class ServiceOrganizerService {
 			return new ResponseEntity<> (wrapper, HttpStatus.OK);
 		}
 	}
+	
+//	find garage by city
+	
+	public ResponseEntity<?> findByCity(String city){
+		List<ServiceOrganizer> foundGarage = serviceOrganizerRepository.findByCity(city);
+		if(foundGarage.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No garage found with the same city, please add in some in database");
+		}else {
+			wrapper.setMessage("Following garages found");
+			wrapper.setData(foundGarage);
+			return new ResponseEntity<> (wrapper, HttpStatus.FOUND);	
+		}
+	}
 
 }
