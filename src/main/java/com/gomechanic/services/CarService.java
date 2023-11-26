@@ -43,6 +43,14 @@ public class CarService {
 		}
 	}
 	
+//	Delete a car
+	public ResponseEntity<?> deleteCar(int id){
+		carRepository.deleteById(id);
+		carResponseWrapper.setMessage("Car deletes");
+		carResponseWrapper.setData(null);
+		return new ResponseEntity<> (carResponseWrapper, HttpStatus.OK);
+	}
+	
 	
 	
 
