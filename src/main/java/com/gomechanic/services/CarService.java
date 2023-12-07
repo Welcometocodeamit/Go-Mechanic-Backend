@@ -43,12 +43,33 @@ public class CarService {
 		}
 	}
 	
+//	Get car by id
+	public ResponseEntity<?> getCarById(int id){
+		  Car foundCar=carRepository.findById(id).orElseThrow(()->{
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with given id not found");
+		});
+			  carResponseWrapper.setData(foundCar);
+			  carResponseWrapper.setMessage("Following car found");
+			  return new ResponseEntity<>(carResponseWrapper, HttpStatus.FOUND);
+	}
+	
 //	Delete a car
 	public ResponseEntity<?> deleteCar(int id){
 		carRepository.deleteById(id);
 		carResponseWrapper.setMessage("Car deletes");
 		carResponseWrapper.setData(null);
 		return new ResponseEntity<> (carResponseWrapper, HttpStatus.OK);
+	}
+	
+//	Update car
+	public ResponseEntity<?> updateCar(int id, Car car){
+		getCarById(id);
+		car.setId(id);
+		Car updatedCar=carRepository.save(car);
+		carResponseWrapper.setData(updatedCar);
+		carResponseWrapper.setMessage("Car updated");
+		return new ResponseEntity<>(carResponseWrapper, HttpStatus.OK);
+		
 	}
 	
 	
