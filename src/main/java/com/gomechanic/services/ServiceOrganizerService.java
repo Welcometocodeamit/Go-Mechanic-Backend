@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.gomechanic.models.Car;
 import com.gomechanic.models.ServiceOrganizer;
 import com.gomechanic.repositories.ServiceOrganizerRepository;
 import com.gomechanic.responsewrappers.ServiceOrganizerResponseWrapper;
@@ -56,5 +57,36 @@ public class ServiceOrganizerService {
 			return new ResponseEntity<> (wrapper, HttpStatus.FOUND);	
 		}
 	}
+	
+//	find garage by id
+	public ResponseEntity<?> getGarageById(int id){
+		  ServiceOrganizer foundGarage=serviceOrganizerRepository.findById(id).orElseThrow(()->{
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Garage with given id not found");
+		});
+			  wrapper.setData(foundGarage);
+			  wrapper.setMessage("Following garage found");
+			  return new ResponseEntity<>(wrapper, HttpStatus.FOUND);
+	}
+	
+	
+//	Delete garage by id 
+	public ResponseEntity<?> deleteGarage(int id){
+		serviceOrganizerRepository.deleteById(id);
+		wrapper.setMessage("Garage deleted");
+		wrapper.setData(null);
+		return new ResponseEntity<> (wrapper, HttpStatus.OK);
+	}
+	
+//	Update garage by id
+	public ResponseEntity<?> updateGarage(int id, ServiceOrganizer garage){
+		getGarageById(id);
+		garage.setId(id);
+		ServiceOrganizer updatedGarage=serviceOrganizerRepository.save(garage);
+		wrapper.setData(updatedGarage);
+		wrapper.setMessage("Garage updated");
+		return new ResponseEntity<>(wrapper, HttpStatus.OK);
+		
+	}
+	
 
 }
