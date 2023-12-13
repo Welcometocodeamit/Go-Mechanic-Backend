@@ -13,7 +13,7 @@ import com.gomechanic.services.MailService;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/mail")
+@RequestMapping("/api/mail")
 public class MailController {
 	
 	@Autowired
